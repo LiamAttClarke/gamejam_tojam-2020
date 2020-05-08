@@ -10,6 +10,8 @@ export default class Scene {
     this._assetManager = assetManager;
     this._container = new PIXI.Container();
     this._background = null;
+    this._lastScreenWidth = this._app.screen.width;
+    this._lastScreenHeight = this._app.screen.height;
   }
 
   /** Initialize your scene */
@@ -30,6 +32,7 @@ export default class Scene {
 
   setBackground(backgroundKey) {
     const background = this._assetManager.getBackground(backgroundKey);
+    if (!background) throw new Error(`Background '${backgroundKey}' not found.`);
     const { width: screenWidth, height: screenHeight } = this._app.screen;
     const { width: bgWidth, height: bgHeight } = getFillDimensions(
       screenWidth,
@@ -49,6 +52,15 @@ export default class Scene {
     this._background = background;
   }
 
+  addSprite(spriteKey, x = 0, y = 0) {
+    const sprite = this._assetManager.getSprite(spriteKey);
+    if (!sprite) throw new Error(`Sprite '${spriteKey}' not found.`);
+    sprite.x = this._app.screen.width * x;
+    sprite.y = this._app.screen.height * y;
+    this._container.addChild(sprite);
+    return sprite;
+  }
+
   onResize() {
     const { width: screenWidth, height: screenHeight } = this._app.screen;
     if (this._background) {
@@ -63,5 +75,17 @@ export default class Scene {
       this._background.width = bgWidth;
       this._background.height = bgHeight;
     }
+    // Reposition all other sprites
+    this._container.children.forEach((child) => {
+      if (child !== this._background) {
+        const xPercent = child.x / this._lastScreenWidth;
+        const yPercent = child.y / this._lastScreenHeight;
+        child.x = screenWidth * xPercent;
+        child.y = screenHeight * yPercent;
+      }
+    });
+    // Update last known screen dimensions
+    this._lastScreenWidth = screenWidth;
+    this._lastScreenHeight = screenHeight;
   }
 }
