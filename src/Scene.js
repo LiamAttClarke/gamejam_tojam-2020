@@ -32,7 +32,6 @@ export default class Scene {
 
   setBackground(backgroundKey) {
     const background = this._assetManager.getBackground(backgroundKey);
-    if (!background) throw new Error(`Background '${backgroundKey}' not found.`);
     const { width: screenWidth, height: screenHeight } = this._app.screen;
     const { width: bgWidth, height: bgHeight } = getFillDimensions(
       screenWidth,
@@ -54,7 +53,6 @@ export default class Scene {
 
   addSprite(spriteKey, x = 0, y = 0) {
     const sprite = this._assetManager.getSprite(spriteKey);
-    if (!sprite) throw new Error(`Sprite '${spriteKey}' not found.`);
     sprite.x = this._app.screen.width * x;
     sprite.y = this._app.screen.height * y;
     this._container.addChild(sprite);

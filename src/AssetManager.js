@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { Howl, Howler } from 'howler';
 
 const BACKGROUND_PREFIX = 'background';
 const SPRITE_PREFIX = 'sprite';
@@ -10,11 +11,15 @@ const assets = {
   sprites: {
     dog: '/sprites/dog.png',
   },
+  sounds: {
+    soundOfSilence: '/sounds/sound-of-silence.mp3',
+  },
 };
 
 export default class AssetManager {
   constructor(app) {
     this._app = app;
+    this._howl = null;
   }
 
   preload() {
@@ -32,16 +37,31 @@ export default class AssetManager {
   }
 
   getBackground(key) {
-    const texture = this._app.loader.resources[`${BACKGROUND_PREFIX}_${key}`].texture;
-    const background = new PIXI.Sprite(texture);
+    const resource = this._app.loader.resources[`${BACKGROUND_PREFIX}_${key}`];
+    if (!resource) throw new Error(`Background '${key}' not found.`);
+    const background = new PIXI.Sprite(resource.texture);
     background.pivot.x = background.texture.width * 0.5;
     background.pivot.y = background.texture.height * 0.5;
     return background;
   }
 
   getSprite(key) {
-    const texture = this._app.loader.resources[`${SPRITE_PREFIX}_${key}`].texture;
-    const sprite = new PIXI.Sprite(texture);
+    const resource = this._app.loader.resources[`${SPRITE_PREFIX}_${key}`];
+    if (!resource) throw new Error(`Sprite '${key}' not found.`);
+    const sprite = new PIXI.Sprite(resource.texture);
     return sprite;
+  }
+
+  playSound(key, options) {
+    if (this._howl) this._howl.stop();
+    // TODO: Load sound effects as audio-spritesheet for faster playback.
+    const src = assets.sounds[key];
+    if (!src) throw new Error(`Sound '${key}' not found.`);
+    this._howl = new Howl({
+      src: [src],
+      ...options,
+    });
+    this._howl.play();
+    return this._howl;
   }
 }
