@@ -1,9 +1,14 @@
 import * as PIXI from 'pixi.js';
 import SceneManager, { Scene } from './SceneManager';
+import AssetManager from './AssetManager';
 
-init();
+init().then(() => {
+  console.log('Ready to go!');
+}).catch((e) => {
+  throw e;
+});
 
-function init() {
+async function init() {
   const app = new PIXI.Application({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -12,6 +17,8 @@ function init() {
     resizeTo: window,
   });
   document.body.appendChild(app.view);
-  const sceneManager = new SceneManager(app);
+  const assetManager = new AssetManager(app);
+  await assetManager.preload();
+  const sceneManager = new SceneManager(app, assetManager);
   sceneManager.setScene(Scene.Intro);
 }
