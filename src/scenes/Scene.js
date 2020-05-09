@@ -116,7 +116,6 @@ export default class Scene {
 
   onPointerMove(event) {
     this._hand.root.position = event.data.getLocalPosition(this._container);
-    console.log(this._hand.root.x, this._hand.root.y);
   }
 
   onPointerDown(event) {}

@@ -43,11 +43,11 @@ export default class ClockProp extends Prop {
   }
 
   get minutePosition() {
-    return (this.secondsElapsed % 3600) / 60;
+    return (this.secondsElapsed / 60) % 60;
   }
 
   get hourPosition() {
-    return (this.secondsElapsed % 43200) / 3600;
+    return (this.secondsElapsed / 3600) % 12;
   }
 
   update(delta) {

@@ -1,9 +1,7 @@
-import IntroScene from './scenes/IntroScene';
-import SadScene from './scenes/SadScene';
+import IntroScene from '../scenes/IntroScene';
 
 export const Scene = {
   Intro: IntroScene,
-  Sad: SadScene,
 };
 
 export default class SceneManager {

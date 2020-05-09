@@ -23,7 +23,6 @@ export default class Prop {
     }
   }
 
-  /** only */
   update(delta) {}
 
   onPointerOver(event) {

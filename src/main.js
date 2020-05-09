@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
-import SceneManager, { Scene } from './SceneManager';
-import AssetManager from './AssetManager';
+import SceneManager, { Scene } from './lib/SceneManager';
+import AssetManager from './lib/AssetManager';
 
 init().then(() => {
   console.log('Ready to go!');

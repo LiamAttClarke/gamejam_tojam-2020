@@ -1,6 +1,6 @@
 import Prop from './Prop';
 
-export default class ClockProp extends Prop {
+export default class HandProp extends Prop {
   constructor(assetManager, options) {
     super(assetManager, options);
     this.static = false;

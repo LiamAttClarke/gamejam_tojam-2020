@@ -14,6 +14,6 @@ export default class IntroScene extends Scene {
   }
 
   onClockClick() {
-    alert('You clicked a clock.')
+    console.log('You clicked a clock.')
   }
 }
