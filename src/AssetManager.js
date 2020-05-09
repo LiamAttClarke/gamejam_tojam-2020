@@ -10,6 +10,7 @@ const assets = {
   },
   sprites: {
     dog: '/sprites/dog.png',
+    clockFace: '/sprites/dog.png',
   },
   sounds: {
     soundOfSilence: '/sounds/sound-of-silence.mp3',

@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { getFillDimensions } from './lib/Helpers';
+import { getFillDimensions } from '../lib/Helpers';
 
 // Abstract Scene Class
 export default class Scene {
@@ -12,6 +12,7 @@ export default class Scene {
     this._background = null;
     this._lastScreenWidth = this._app.screen.width;
     this._lastScreenHeight = this._app.screen.height;
+    this.props = {};
   }
 
   /** Initialize your scene */
@@ -23,7 +24,11 @@ export default class Scene {
    * Update Loop that runs every frame
    * @param {Number} delta time elapsed since last frame (seconds)
    */
-  update() {}
+  update(delta) {
+    Object.values(this.props).forEach((prop) => {
+      if (!prop.static) prop.update(delta);
+    });
+  }
 
   /** Called before switching to next Scene */
   destroy() {
@@ -51,12 +56,20 @@ export default class Scene {
     this._background = background;
   }
 
-  addSprite(spriteKey, x = 0, y = 0) {
-    const sprite = this._assetManager.getSprite(spriteKey);
-    sprite.x = this._app.screen.width * x;
-    sprite.y = this._app.screen.height * y;
-    this._container.addChild(sprite);
-    return sprite;
+  addProp(propName, propInstance, x = 0, y = 0) {
+    if (propName in this.props) throw new Error(`Prop '${propName}' already exists.`);
+    propInstance.root.x = this._app.screen.width * x;
+    propInstance.root.y = this._app.screen.height * y;
+    this._container.addChild(propInstance.root);
+    this.props[propName] = propInstance;
+  }
+
+  removeProp(propName) {
+    const prop = this.props[propName];
+    if (prop) {
+      this._container.removeChild(prop.root);
+      delete this.props[propName];
+    }
   }
 
   onResize() {
