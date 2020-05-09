@@ -7,6 +7,6 @@ export default class IntroScene extends Scene {
   setup() {
     super.setup();
     this.setBackground('thisIsFine');
-    this.addProp('clock', new ClockProp(this._assetManager), 0.5, 0.5);
+    this.addProp('clock', new ClockProp(this._assetManager), 0.6, 0.35);
   }
 }

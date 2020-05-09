@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { getFillDimensions } from '../lib/Helpers';
+import HandProp from '../props/HandProp';
 
 // Abstract Scene Class
 export default class Scene {
@@ -8,16 +9,34 @@ export default class Scene {
     this._app = app;
     this._sceneManager = sceneManager;
     this._assetManager = assetManager;
-    this._container = new PIXI.Container();
+    this._container = null;
     this._background = null;
     this._lastScreenWidth = this._app.screen.width;
     this._lastScreenHeight = this._app.screen.height;
+    this._hand = null;
     this.props = {};
   }
 
   /** Initialize your scene */
   setup() {
+    this._container = new PIXI.Container();
+    // Sort children by zIndex
+    this._container.sortableChildren = true;
     this._app.stage.addChild(this._container);
+    // Add hand cursor
+    this._hand = new HandProp(this._assetManager);
+    this._hand.root.x = -100000;
+    this._hand.root.y = -100000;
+    this._hand.root.zIndex = 999;
+    this._container.addChild(this._hand.root);
+    // Enable scene interactivity
+    this._container.interactive = true;
+    this._container.on('mousemove', this.onPointerMove.bind(this));
+    this._container.on('touchmove', this.onPointerMove.bind(this));
+    this._container.on('mousedown', this.onPointerDown.bind(this));
+    this._container.on('touchstart', this.onPointerDown.bind(this));
+    this._container.on('mouseup', this.onPointerUp.bind(this));
+    this._container.on('touchend', this.onPointerUp.bind(this));
   }
 
   /**
@@ -86,17 +105,24 @@ export default class Scene {
       this._background.width = bgWidth;
       this._background.height = bgHeight;
     }
-    // Reposition all other sprites
-    this._container.children.forEach((child) => {
-      if (child !== this._background) {
-        const xPercent = child.x / this._lastScreenWidth;
-        const yPercent = child.y / this._lastScreenHeight;
-        child.x = screenWidth * xPercent;
-        child.y = screenHeight * yPercent;
-      }
+    // Reposition all scene props
+    Object.values(this.props).forEach((prop) => {
+      const xPercent = prop.root.x / this._lastScreenWidth;
+      const yPercent = prop.root.y / this._lastScreenHeight;
+      prop.root.x = screenWidth * xPercent;
+      prop.root.y = screenHeight * yPercent;
     });
     // Update last known screen dimensions
     this._lastScreenWidth = screenWidth;
     this._lastScreenHeight = screenHeight;
   }
+
+  onPointerMove(event) {
+    this._hand.root.position = event.data.getLocalPosition(this._container);
+    console.log(this._hand.root.x, this._hand.root.y);
+  }
+
+  onPointerDown(event) {}
+
+  onPointerUp(event) {}
 }
