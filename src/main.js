@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import State from './lib/State';
-import SceneManager, { Scene } from './lib/SceneManager';
+import SceneManager, { Scenes } from './lib/SceneManager';
 import AssetManager from './lib/AssetManager';
 
 // Here be Liam's field of globals.
@@ -18,15 +18,14 @@ init().then(() => {
 
 async function init() {
   window.pixi = new PIXI.Application({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    backgroundColor: 0xFFFFFF,
+    width: 1366,
+    height: 768,
+    backgroundColor: 0x000000,
     antialias: true,
-    resizeTo: window,
   });
   document.body.appendChild(window.pixi.view);
   window.assetManager = new AssetManager();
   await assetManager.preload();
   window.sceneManager = new SceneManager();
-  window.sceneManager.setScene(Scene.Intro);
+  window.sceneManager.setScene(Scenes.Office);
 }

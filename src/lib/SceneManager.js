@@ -1,7 +1,11 @@
 import IntroScene from '../scenes/IntroScene';
+import OfficeScene from '../scenes/OfficeScene';
+import SubwayScene from '../scenes/SubwayScene';
 
-export const Scene = {
+export const Scenes = {
   Intro: IntroScene,
+  Office: OfficeScene,
+  Subway: SubwayScene,
 };
 
 export default class SceneManager {

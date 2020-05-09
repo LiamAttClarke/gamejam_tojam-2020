@@ -75,6 +75,7 @@ export default class Scene {
     propInstance.root.y = window.pixi.screen.height * y;
     this._container.addChild(propInstance.root);
     this.props[propName] = propInstance;
+    return propInstance;
   }
 
   removeProp(propName) {

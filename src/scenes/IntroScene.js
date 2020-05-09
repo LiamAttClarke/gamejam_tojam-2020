@@ -1,4 +1,3 @@
-import * as PIXI from 'pixi.js';
 import Scene from './Scene';
 import ClockProp from '../props/ClockProp';
 

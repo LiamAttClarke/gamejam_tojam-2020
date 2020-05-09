@@ -1,12 +1,13 @@
 import * as PIXI from 'pixi.js';
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 
 const BACKGROUND_PREFIX = 'background';
 const SPRITE_PREFIX = 'sprite';
 
-const assets = {
+export const assets = {
   backgrounds: {
     thisIsFine: '/backgrounds/this-is-fine.jpg',
+    subway: '/backgrounds/subway.png',
   },
   sprites: {
     dog: '/sprites/dog.png',
@@ -14,9 +15,13 @@ const assets = {
     clockHourHand: '/sprites/clock/clock_hour-hand.png',
     clockMinuteHand: '/sprites/clock/clock_minute-hand.png',
     clockSecondHand: '/sprites/clock/clock_second-hand.png',
+    // hand
     handIdle: '/sprites/hand/hand_pointing.png',
     handPointing: '/sprites/hand/hand_pointing.png',
     handGrabbing: '/sprites/hand/hand_pointing.png',
+    // mug
+    mugEmpty: '/sprites/mugEmpty.png',
+    mugFull: '/sprites/mugFull.png',
   },
   sounds: {
     soundOfSilence: '/sounds/sound-of-silence.mp3',
@@ -54,8 +59,11 @@ export default class AssetManager {
   getSprite(key) {
     const resource = window.pixi.loader.resources[`${SPRITE_PREFIX}_${key}`];
     if (!resource) throw new Error(`Sprite '${key}' not found.`);
-    const sprite = new PIXI.Sprite(resource.texture);
-    return sprite;
+    return new PIXI.Sprite(resource.texture);
+  }
+
+  getSpriteTexture(key) {
+    return PIXI.Texture.from(assets.sprites[key]);
   }
 
   playSound(key, options) {
