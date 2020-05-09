@@ -6,23 +6,30 @@ export const Scene = {
 
 export default class SceneManager {
 
-  constructor(app, assetManager) {
-    this._app = app;
-    this._assetManager = assetManager;
+  constructor() {
     this.activeScene = null;
     window.addEventListener('resize', this._onResize.bind(this));
   }
 
   async setScene(scene) {
-    if (this.activeScene) this.activeScene.destroy();
-    this.activeScene = new scene(this._app, this, this._assetManager);
+    if (this.activeScene) {
+      window.pixi.ticker.remove(this._onTick);
+      this.activeScene.destroy();
+    }
+    this.activeScene = new scene();
     this.activeScene.setup();
-    this._app.ticker.add((delta) => this.activeScene.update(delta));
+    window.pixi.ticker.add(this._onTick.bind(this));
   }
 
   _onResize(event) {
     if (this.activeScene) {
       this.activeScene.onResize(event);
     }
+  }
+
+  _onTick(delta) {
+    this.activeScene.update(delta);
+    // Update global clock
+    window.state.tick(delta);
   }
 }

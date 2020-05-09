@@ -9,8 +9,7 @@ const glowFilter = new GlowFilter();
 
 export default class Prop {
 
-  constructor(assetManager, options = defaultOptions) {
-    this._assetManager = assetManager;
+  constructor(options = defaultOptions) {
     this.static = true;
     this.root = new PIXI.Container();
     this.root.interactive = options.interactive;

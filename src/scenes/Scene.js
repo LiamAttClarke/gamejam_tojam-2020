@@ -5,14 +5,11 @@ import HandProp from '../props/HandProp';
 // Abstract Scene Class
 export default class Scene {
 
-  constructor(app, sceneManager, assetManager) {
-    this._app = app;
-    this._sceneManager = sceneManager;
-    this._assetManager = assetManager;
+  constructor() {
     this._container = null;
     this._background = null;
-    this._lastScreenWidth = this._app.screen.width;
-    this._lastScreenHeight = this._app.screen.height;
+    this._lastScreenWidth = window.pixi.screen.width;
+    this._lastScreenHeight = window.pixi.screen.height;
     this._hand = null;
     this.props = {};
   }
@@ -22,9 +19,9 @@ export default class Scene {
     this._container = new PIXI.Container();
     // Sort children by zIndex
     this._container.sortableChildren = true;
-    this._app.stage.addChild(this._container);
+    window.pixi.stage.addChild(this._container);
     // Add hand cursor
-    this._hand = new HandProp(this._assetManager);
+    this._hand = new HandProp();
     this._hand.root.x = -100000;
     this._hand.root.y = -100000;
     this._hand.root.zIndex = 999;
@@ -48,12 +45,12 @@ export default class Scene {
 
   /** Called before switching to next Scene */
   destroy() {
-    this._app.stage.removeChild(this._container);
+    window.pixi.stage.removeChild(this._container);
   }
 
   setBackground(backgroundKey) {
-    const background = this._assetManager.getBackground(backgroundKey);
-    const { width: screenWidth, height: screenHeight } = this._app.screen;
+    const background = window.assetManager.getBackground(backgroundKey);
+    const { width: screenWidth, height: screenHeight } = window.pixi.screen;
     const { width: bgWidth, height: bgHeight } = getFillDimensions(
       screenWidth,
       screenHeight,
@@ -74,8 +71,8 @@ export default class Scene {
 
   addProp(propName, propInstance, x = 0, y = 0) {
     if (propName in this.props) throw new Error(`Prop '${propName}' already exists.`);
-    propInstance.root.x = this._app.screen.width * x;
-    propInstance.root.y = this._app.screen.height * y;
+    propInstance.root.x = window.pixi.screen.width * x;
+    propInstance.root.y = window.pixi.screen.height * y;
     this._container.addChild(propInstance.root);
     this.props[propName] = propInstance;
   }
@@ -89,7 +86,7 @@ export default class Scene {
   }
 
   onResize() {
-    const { width: screenWidth, height: screenHeight } = this._app.screen;
+    const { width: screenWidth, height: screenHeight } = window.pixi.screen;
     if (this._background) {
       const { width: bgWidth, height: bgHeight } = getFillDimensions(
         screenWidth,

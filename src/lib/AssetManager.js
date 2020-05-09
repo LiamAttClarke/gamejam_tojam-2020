@@ -10,11 +10,13 @@ const assets = {
   },
   sprites: {
     dog: '/sprites/dog.png',
-    clockFace: '/sprites/clock_face.png',
-    clockHourHand: '/sprites/clock_hour-hand.png',
-    clockMinuteHand: '/sprites/clock_minute-hand.png',
-    clockSecondHand: '/sprites/clock_second-hand.png',
-    handIdle: '/sprites/hand_pointing.png',
+    clockFace: '/sprites/clock/clock_face.png',
+    clockHourHand: '/sprites/clock/clock_hour-hand.png',
+    clockMinuteHand: '/sprites/clock/clock_minute-hand.png',
+    clockSecondHand: '/sprites/clock/clock_second-hand.png',
+    handIdle: '/sprites/hand/hand_pointing.png',
+    handPointing: '/sprites/hand/hand_pointing.png',
+    handGrabbing: '/sprites/hand/hand_pointing.png',
   },
   sounds: {
     soundOfSilence: '/sounds/sound-of-silence.mp3',
@@ -22,27 +24,26 @@ const assets = {
 };
 
 export default class AssetManager {
-  constructor(app) {
-    this._app = app;
+  constructor() {
     this._howl = null;
   }
 
   preload() {
     return new Promise((resolve, reject) => {
       Object.entries(assets.backgrounds).forEach(([key, path]) => {
-        this._app.loader.add(`${BACKGROUND_PREFIX}_${key}`, path);
+        window.pixi.loader.add(`${BACKGROUND_PREFIX}_${key}`, path);
       });
       Object.entries(assets.sprites).forEach(([key, path]) => {
-        this._app.loader.add(`${SPRITE_PREFIX}_${key}`, path);
+        window.pixi.loader.add(`${SPRITE_PREFIX}_${key}`, path);
       });
-      this._app.loader.onError.add(reject);
-      this._app.loader.onComplete.add(resolve);
-      this._app.loader.load();
+      window.pixi.loader.onError.add(reject);
+      window.pixi.loader.onComplete.add(resolve);
+      window.pixi.loader.load();
     });
   }
 
   getBackground(key) {
-    const resource = this._app.loader.resources[`${BACKGROUND_PREFIX}_${key}`];
+    const resource = window.pixi.loader.resources[`${BACKGROUND_PREFIX}_${key}`];
     if (!resource) throw new Error(`Background '${key}' not found.`);
     const background = new PIXI.Sprite(resource.texture);
     background.pivot.x = background.texture.width * 0.5;
@@ -51,7 +52,7 @@ export default class AssetManager {
   }
 
   getSprite(key) {
-    const resource = this._app.loader.resources[`${SPRITE_PREFIX}_${key}`];
+    const resource = window.pixi.loader.resources[`${SPRITE_PREFIX}_${key}`];
     if (!resource) throw new Error(`Sprite '${key}' not found.`);
     const sprite = new PIXI.Sprite(resource.texture);
     return sprite;
