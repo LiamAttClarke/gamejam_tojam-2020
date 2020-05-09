@@ -32,11 +32,8 @@ export default class Scene {
     // Enable scene interactivity
     this._container.interactive = true;
     this._container.on('mousemove', this.onPointerMove.bind(this));
-    this._container.on('touchmove', this.onPointerMove.bind(this));
     this._container.on('mousedown', this.onPointerDown.bind(this));
-    this._container.on('touchstart', this.onPointerDown.bind(this));
     this._container.on('mouseup', this.onPointerUp.bind(this));
-    this._container.on('touchend', this.onPointerUp.bind(this));
   }
 
   /**
