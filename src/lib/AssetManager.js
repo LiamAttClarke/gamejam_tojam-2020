@@ -34,7 +34,7 @@ export const assets = {
     // keurig
     keurigClosed: 'sprites/keurig/keurigClosed.png',
     keurigOpen: 'sprites/keurig/keurigOpen.png',
-    keurigOpenWithPod: 'sprites/keurig/keurigOpenWithPod.png',
+    keurigOpenWithPod: 'sprites/keurig/keurigOpenWPod.png',
     keurigButton: 'sprites/keurig/keurigButton.png',
     coffeePod: 'sprites/coffeePod.png',
     // computer
