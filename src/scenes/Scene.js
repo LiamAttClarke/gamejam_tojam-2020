@@ -1,6 +1,14 @@
 import * as PIXI from 'pixi.js';
+import { GlowFilter } from '@pixi/filter-glow';
 import { getFillDimensions } from '../lib/Helpers';
 import HandProp from '../props/HandProp';
+import ConsumeIconProp from '../props/ConsumeIconProp';
+
+const glowFilter = new GlowFilter();
+const Layer = {
+  Cursor: 999,
+  GUI: 998,
+}
 
 // Abstract Scene Class
 export default class Scene {
@@ -11,7 +19,9 @@ export default class Scene {
     this._lastScreenWidth = window.pixi.screen.width;
     this._lastScreenHeight = window.pixi.screen.height;
     this._hand = null;
-    this.props = {};
+    this._consumeIcon = null;
+    this.itemInHand = null;
+    this.props = [];
   }
 
   /** Initialize your scene */
@@ -22,15 +32,23 @@ export default class Scene {
     window.pixi.stage.addChild(this._container);
     // Add hand cursor
     this._hand = new HandProp();
-    this._hand.root.x = -100000;
-    this._hand.root.y = -100000;
-    this._hand.root.zIndex = 999;
-    this._container.addChild(this._hand.root);
+    this._hand.sprite.x = -100000;
+    this._hand.sprite.y = -100000;
+    this._hand.sprite.zIndex = Layer.Cursor;
+    this._container.addChild(this._hand.sprite);
+    // Add consume icon
+    console.log(window.pixi.stage.width)
+    this._consumeIcon = this.addProp(new ConsumeIconProp({
+      x: (window.pixi.screen.width / 2) - 70,
+      y: window.pixi.screen.height - 138,
+    }));
+    this._consumeIcon.sprite.zIndex = Layer.GUI;
+    // only visible when holding consumable
+    this._consumeIcon.sprite.visible = false;
+    this._container.addChild(this._consumeIcon.sprite);
     // Enable scene interactivity
     this._container.interactive = true;
     this._container.on('mousemove', this.onPointerMove.bind(this));
-    this._container.on('mousedown', this.onPointerDown.bind(this));
-    this._container.on('mouseup', this.onPointerUp.bind(this));
   }
 
   /**
@@ -38,7 +56,7 @@ export default class Scene {
    * @param {Number} delta time elapsed since last frame (seconds)
    */
   update(delta) {
-    Object.values(this.props).forEach((prop) => {
+    this.props.forEach((prop) => {
       if (!prop.static) prop.update(delta);
     });
   }
@@ -69,54 +87,64 @@ export default class Scene {
     this._background = background;
   }
 
-  addProp(propName, propInstance, x = 0, y = 0) {
-    if (propName in this.props) throw new Error(`Prop '${propName}' already exists.`);
-    propInstance.root.x = window.pixi.screen.width * x;
-    propInstance.root.y = window.pixi.screen.height * y;
-    this._container.addChild(propInstance.root);
-    this.props[propName] = propInstance;
+  addProp(propInstance) {
+    if (propInstance.interactive) {
+      propInstance.sprite.on('mouseover', (event) => this.onPropPointerOver(event, propInstance));
+      propInstance.sprite.on('mouseout', (event) => this.onPropPointerLeave(event, propInstance));
+      propInstance.sprite.on('click', (event) => this.onPropClick(event, propInstance));
+    }
+    this._container.addChild(propInstance.sprite);
+    this.props.push(propInstance);
     return propInstance;
   }
 
-  removeProp(propName) {
-    const prop = this.props[propName];
-    if (prop) {
-      this._container.removeChild(prop.root);
-      delete this.props[propName];
-    }
+  removeProp(prop) {
+    const propIndex = this.props.indexOf(prop);
+    this.props.slice(propIndex, 1);
   }
 
-  onResize() {
-    const { width: screenWidth, height: screenHeight } = window.pixi.screen;
-    if (this._background) {
-      const { width: bgWidth, height: bgHeight } = getFillDimensions(
-        screenWidth,
-        screenHeight,
-        this._background.texture.width,
-        this._background.texture.height
-      );
-      this._background.x = screenWidth / 2;
-      this._background.y = screenHeight / 2;
-      this._background.width = bgWidth;
-      this._background.height = bgHeight;
+  grabProp(prop) {
+    prop.sprite.filters = [];
+    prop.setInteractive(false);
+    prop.sprite.x = 0;
+    prop.sprite.y = 0;
+    prop.sprite.width *= 2;
+    prop.sprite.height *= 2;
+    prop.sprite.setParent(this._hand.sprite);
+    this.itemInHand = prop;
+    if (prop.consumable) {
+      this._consumeIcon.sprite.visible = true;
     }
-    // Reposition all scene props
-    Object.values(this.props).forEach((prop) => {
-      const xPercent = prop.root.x / this._lastScreenWidth;
-      const yPercent = prop.root.y / this._lastScreenHeight;
-      prop.root.x = screenWidth * xPercent;
-      prop.root.y = screenHeight * yPercent;
-    });
-    // Update last known screen dimensions
-    this._lastScreenWidth = screenWidth;
-    this._lastScreenHeight = screenHeight;
   }
 
   onPointerMove(event) {
-    this._hand.root.position = event.data.getLocalPosition(this._container);
+    this._hand.sprite.position = event.data.getLocalPosition(this._container);
   }
 
-  onPointerDown(event) {}
+  onPropPointerOver(event, prop) {
+    prop.sprite.filters = [glowFilter];
+    if (prop.draggable) {
+      // TODO: Change hand sprite to grabby hand
+    }
+  }
 
-  onPointerUp(event) {}
+  onPropPointerLeave(event, prop) {
+    prop.sprite.filters = [];
+  }
+
+  onPropClick(event, prop) {
+    if (prop === this._consumeIcon && this.itemInHand) {
+      const delConsumable = this.itemInHand.consume();
+      if (delConsumable) {
+        this.removeProp(this.itemInHand);
+      }
+      this.itemInHand = null;
+      this._consumeIcon.sprite.visible = false;
+      // TODO: Set hand back to normal state
+    } else if (prop.draggable) {
+      this.grabProp(prop);
+    } else if (prop.interactive) {
+      prop.onClick();
+    }
+  }
 }

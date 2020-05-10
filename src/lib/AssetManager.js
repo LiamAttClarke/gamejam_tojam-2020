@@ -10,7 +10,8 @@ export const assets = {
     subway: '/backgrounds/subway.png',
   },
   sprites: {
-    dog: '/sprites/dog.png',
+    consumeIcon: '/sprites/stomach.png',
+    // clock
     clockFace: '/sprites/clock/clock_face.png',
     clockHourHand: '/sprites/clock/clock_hour-hand.png',
     clockMinuteHand: '/sprites/clock/clock_minute-hand.png',

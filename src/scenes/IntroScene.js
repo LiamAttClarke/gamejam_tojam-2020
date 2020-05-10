@@ -6,10 +6,10 @@ export default class IntroScene extends Scene {
   setup() {
     super.setup();
     this.setBackground('thisIsFine');
-    this.addProp('clock', new ClockProp({
+    this.addProp(new ClockProp({
       interactive: true,
       onClick: this.onClockClick,
-    }), 0.6, 0.35);
+    }));
   }
 
   onClockClick() {

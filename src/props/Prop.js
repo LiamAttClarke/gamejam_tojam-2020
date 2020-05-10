@@ -1,34 +1,37 @@
 import * as PIXI from 'pixi.js';
-import { GlowFilter } from '@pixi/filter-glow';
 
 const defaultOptions = {
+  x: 0,
+  y: 0,
   interactive: false,
+  draggable: false,
+  consumable: false,
+  onClick: () => {},
 };
-
-const glowFilter = new GlowFilter();
 
 export default class Prop {
 
   constructor(options = defaultOptions) {
     this.static = true;
-    this.root = new PIXI.Container();
-    this.root.interactive = options.interactive;
-    if (options.interactive) {
-      this.root.on('mouseover', this.onPointerOver.bind(this));
-      this.root.on('mouseout', this.onPointerLeave.bind(this));
-      if (options.onClick) {
-        this.root.on('click', options.onClick);
-      }
-    }
+    this.interactive = options.interactive;
+    this.draggable = options.draggable;
+    this.consumable = options.consumable;
+    this.onClick = options.onClick;
+    this.sprite = new PIXI.Container();
+    this.sprite.interactive = options.interactive;
+    this.sprite.x = options.x;
+    this.sprite.y = options.y;
   }
 
   update(delta) {}
 
-  onPointerOver(event) {
-    this.root.filters = [glowFilter];
+  // Return false to delete the object after consumption
+  consume() {
+    return true;
   }
 
-  onPointerLeave(event) {
-    this.root.filters = [];
+  setInteractive(interactive) {
+    this.interactive = interactive;
+    this.sprite.interactive = interactive;
   }
 }

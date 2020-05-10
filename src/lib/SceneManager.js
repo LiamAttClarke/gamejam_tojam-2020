@@ -12,7 +12,6 @@ export default class SceneManager {
 
   constructor() {
     this.activeScene = null;
-    window.addEventListener('resize', this._onResize.bind(this));
   }
 
   async setScene(scene) {
@@ -23,12 +22,6 @@ export default class SceneManager {
     this.activeScene = new scene();
     this.activeScene.setup();
     window.pixi.ticker.add(this._onTick.bind(this));
-  }
-
-  _onResize(event) {
-    if (this.activeScene) {
-      this.activeScene.onResize(event);
-    }
   }
 
   _onTick(delta) {

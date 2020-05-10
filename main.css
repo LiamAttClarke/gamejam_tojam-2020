@@ -1,7 +1,5 @@
 body {
   margin: 0;
-  overflow: hidden;
-  cursor: none;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -11,4 +9,5 @@ body {
 
 canvas {
   border-radius: 5px;
+  cursor: none !important;
 }

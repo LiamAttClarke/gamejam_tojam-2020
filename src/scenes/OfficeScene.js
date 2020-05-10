@@ -8,17 +8,19 @@ export default class OfficeScene extends Scene {
   setup() {
     super.setup();
     this.setBackground('thisIsFine');
-    this.addProp('clock', new ClockProp({
+    this.addProp(new ClockProp({
       interactive: true,
+      x: 500,
+      y: 500,
       onClick: this.onClockClick,
-    }), 0.6, 0.35);
-    this.mug = this.addProp('mug', new MugProp({
+    }));
+    this.mug = this.addProp(new MugProp({
       interactive: true,
       full: true,
+      x: 500,
+      y: 500,
       onClick: this.onMugClick.bind(this),
-    }), 0.65, 0.5);
-    this.mug.root.width = 128;
-    this.mug.root.height = 128;
+    }));
   }
 
   onClockClick() {

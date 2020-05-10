@@ -5,10 +5,22 @@ const MUG_FULL = 'mugFull';
 
 export default class MugProp extends Prop {
   constructor(options) {
-    super(options);
-    this.mug = window.assetManager.getSprite(options.full ? MUG_FULL : MUG_EMPTY);
+    super({
+      interactive: true,
+      draggable: true,
+      consumable: true,
+      ...options,
+    });
     this.isFull = options.full;
-    this.root.addChild(this.mug);
+    this.mug = window.assetManager.getSprite(options.full ? MUG_FULL : MUG_EMPTY);
+    this.mug.width = 128;
+    this.mug.height = 128;
+    this.sprite.addChild(this.mug);
+  }
+
+  consume() {
+    this.empty();
+    return false;
   }
 
   fill() {

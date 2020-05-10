@@ -10,7 +10,7 @@ export default class ClockProp extends Prop {
     this.clockFace = window.assetManager.getSprite('clockFace');
     this.clockFace.pivot.x = this.clockFace.width / 2;
     this.clockFace.pivot.y = this.clockFace.height / 2;
-    this.root.addChild(this.clockFace);
+    this.sprite.addChild(this.clockFace);
     // Hour Hand
     this.hourHand = window.assetManager.getSprite('clockHourHand');
     this.hourHand.pivot.x = this.hourHand.width / 2;
