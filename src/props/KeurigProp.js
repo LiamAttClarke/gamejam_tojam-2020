@@ -1,4 +1,5 @@
 import Prop from './Prop';
+import { Howl } from 'howler';
 
 const TEXTURE_CLOSED = 'keurigClosed';
 const TEXTURE_OPEN = 'keurigOpen';
@@ -17,6 +18,10 @@ export default class KeurigProp extends Prop {
     this.sprite.interactive = opts.interactive;
     this.sprite.x = opts.x;
     this.sprite.y = opts.y;
+    this.pourSound = new Howl({
+      src: window.assetManager.getSoundSrc('pour'),
+    });
+    this.onPour = options.onPour;
   }
 
   open() {
@@ -45,5 +50,10 @@ export default class KeurigProp extends Prop {
       this.hasPod = false;
       this.sprite.texture = window.assetManager.getSpriteTexture(TEXTURE_CLOSED);
     }
+  }
+
+  activate() {
+    this.pourSound.play();
+    this.pourSound.on('end', this.onPour);
   }
 }

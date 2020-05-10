@@ -156,7 +156,7 @@ export default class Scene {
         this._consumeIcon.sprite.visible = true;
       }
     } else if (prop.interactive) {
-      prop.onClick(event, prop);
+      prop.onClick(event, this._hand.propInHand);
     }
   }
 }

@@ -39,6 +39,7 @@ export const assets = {
     end: '/sounds/sound-of-silence.mp3',
     // clock: '/sounds/clock.mp3',
     slurp: '/sounds/slurp.mp3',
+    pour: '/sounds/coffeePour.mp3',
   },
 };
 
