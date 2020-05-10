@@ -15,6 +15,8 @@ export const assets = {
   sprites: {
     //photo:
     photo: '/sprites/credits.png',
+    //back button
+    backBtn: '/sprites/backBtn.png',
     consumeIcon: '/sprites/stomach.png',
     // clock
     clockFace: '/sprites/clock/clock_face.png',

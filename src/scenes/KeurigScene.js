@@ -4,6 +4,7 @@ import ClockProp from '../props/ClockProp';
 import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
 import PodProp from '../props/PodProp';
+import BackBtnProp from '../props/backBtnProp';
 import { Scenes } from '../lib/SceneManager';
 
 export default class OfficeScene extends Scene {
@@ -32,6 +33,14 @@ export default class OfficeScene extends Scene {
       interactive: true,
       x: 100,
       y: 600,
+    }));
+    this.pod.sprite.width = 100;
+    this.pod.sprite.height = 100;
+    this.backBtn = this.addProp(new BackBtnProp({
+      interactive: true,
+      x: 0,
+      y: 0,
+      onClick: this.onBackBtnClick.bind(this),
     }));
     this.addProp(new PodProp({
       interactive: true,
@@ -85,5 +94,9 @@ export default class OfficeScene extends Scene {
     if (this.keurig.pouring) {
       this.keurig.setFire();
     }
+  }
+
+  onBackBtnClick() {
+    window.sceneManager.setScene(Scenes.Office);
   }
 }
