@@ -32,11 +32,13 @@ export default class MugProp extends Prop {
 
   fill() {
     this.isFull = true;
+    this.consumable = true;
     this.sprite.texture = window.assetManager.getSpriteTexture(MUG_FULL);
   }
 
   empty() {
     this.isFull = false;
+    this.consumable = false;
     this.sprite.texture = window.assetManager.getSpriteTexture(MUG_EMPTY);
   }
 }
