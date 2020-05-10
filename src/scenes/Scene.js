@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Howl } from 'howler';
 import { GlowFilter } from '@pixi/filter-glow';
 import { getFillDimensions } from '../lib/Helpers';
-import HandProp from '../props/HandProp';
+import HandProp, { HandState } from '../props/HandProp';
 import ConsumeIconProp from '../props/ConsumeIconProp';
 
 const glowFilter = new GlowFilter();
@@ -49,6 +49,7 @@ export default class Scene {
     // Enable scene interactivity
     this._container.interactive = true;
     this._container.on('mousemove', this.onPointerMove.bind(this));
+    this._container.on('click', this.onPointerClick.bind(this));
   }
 
   /**
@@ -104,20 +105,6 @@ export default class Scene {
     this.props.slice(propIndex, 1);
   }
 
-  grabProp(prop) {
-    prop.sprite.filters = [];
-    prop.setInteractive(false);
-    prop.sprite.x = 0;
-    prop.sprite.y = 0;
-    prop.sprite.width *= 2;
-    prop.sprite.height *= 2;
-    prop.sprite.setParent(this._hand.sprite);
-    this.itemInHand = prop;
-    if (prop.consumable) {
-      this._consumeIcon.sprite.visible = true;
-    }
-  }
-
   setFire() {
     this.props.forEach((prop) => {
       prop.setInteractive(false);
@@ -133,30 +120,43 @@ export default class Scene {
     this._hand.sprite.position = event.data.getLocalPosition(this._container);
   }
 
+  onPointerClick(event) {
+    if (this._hand.propInHand) {
+      this._hand.release();
+      this._consumeIcon.sprite.visible = false;
+    }
+  }
+
   onPropPointerOver(event, prop) {
     prop.sprite.filters = [glowFilter];
-    if (prop.draggable) {
-      // TODO: Change hand sprite to grabby hand
+    if (!this._hand.propInHand) {
+      this._hand.setState(HandState.Pointing);
     }
   }
 
   onPropPointerLeave(event, prop) {
     prop.sprite.filters = [];
+    if (!this._hand.propInHand) {
+      this._hand.setState(HandState.Idle);
+    }
   }
 
   onPropClick(event, prop) {
-    if (prop === this._consumeIcon && this.itemInHand) {
-      const delConsumable = this.itemInHand.consume();
+    event.stopPropagation();
+    if (prop === this._consumeIcon && this._hand.propInHand) {
+      const releasedProp = this._hand.release();
+      const delConsumable = releasedProp.consume();
       if (delConsumable) {
-        this.removeProp(this.itemInHand);
+        this.removeProp(releasedProp);
       }
-      this.itemInHand = null;
       this._consumeIcon.sprite.visible = false;
-      // TODO: Set hand back to normal state
     } else if (prop.draggable) {
-      this.grabProp(prop);
+      this._hand.grab(prop);
+      if (prop.consumable) {
+        this._consumeIcon.sprite.visible = true;
+      }
     } else if (prop.interactive) {
-      prop.onClick();
+      prop.onClick(event, prop);
     }
   }
 }

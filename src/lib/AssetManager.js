@@ -20,7 +20,7 @@ export const assets = {
     // hand
     handIdle: '/sprites/hand/hand_pointing.png',
     handPointing: '/sprites/hand/hand_pointing.png',
-    handGrabbing: '/sprites/hand/hand_pointing.png',
+    handGrabbing: '/sprites/hand/hand_grabbing.png',
     // mug
     mugEmpty: '/sprites/mugEmpty.png',
     mugFull: '/sprites/mugFull.png',
