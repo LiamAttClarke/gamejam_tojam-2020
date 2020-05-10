@@ -9,10 +9,9 @@ export default class MugProp extends Prop {
     super({
       interactive: true,
       draggable: true,
-      consumable: true,
+      consumable: options.full,
       ...options,
     });
-    this.isFull = options.full;
     this.sprite = window.assetManager.getSprite(options.full ? MUG_FULL : MUG_EMPTY);
     this.sprite.interactive = options.interactive;
     this.sprite.x = options.x;
@@ -27,17 +26,18 @@ export default class MugProp extends Prop {
   consume() {
     this.slurpSound.play();
     this.empty();
+    // increase speed of time 10 times;
+    window.pixi.ticker.speed += 10;
+    this.onConsume();
     return false;
   }
 
   fill() {
-    this.isFull = true;
     this.consumable = true;
     this.sprite.texture = window.assetManager.getSpriteTexture(MUG_FULL);
   }
 
   empty() {
-    this.isFull = false;
     this.consumable = false;
     this.sprite.texture = window.assetManager.getSpriteTexture(MUG_EMPTY);
   }

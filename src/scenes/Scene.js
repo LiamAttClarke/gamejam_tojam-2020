@@ -144,9 +144,9 @@ export default class Scene {
   onPropClick(event, prop) {
     event.stopPropagation();
     if (prop === this._consumeIcon && this._hand.propInHand) {
-      const releasedProp = this._hand.release();
-      const delConsumable = releasedProp.consume();
+      const delConsumable = this._hand.propInHand.consume();
       if (delConsumable) {
+        this._hand.releasedProp()
         this.removeProp(releasedProp);
       }
       this._consumeIcon.sprite.visible = false;

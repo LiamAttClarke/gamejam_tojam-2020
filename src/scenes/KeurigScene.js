@@ -2,6 +2,7 @@ import Scene from './Scene';
 import ClockProp from '../props/ClockProp';
 import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
+import PodProp from '../props/PodProp';
 import { Scenes } from '../lib/SceneManager';
 
 export default class OfficeScene extends Scene {
@@ -19,9 +20,16 @@ export default class OfficeScene extends Scene {
     }));
     this.mug = this.addProp(new MugProp({
       interactive: true,
-      x: 1000,
-      y: 500,
+      x: 1150,
+      y: 550,
     }));
+    this.pod = this.addProp(new PodProp({
+      interactive: true,
+      x: 1000,
+      y: 550,
+    }));
+    this.pod.sprite.width = 100;
+    this.pod.sprite.height = 100;
     this.keurig.sprite.width = 400;
     this.keurig.sprite.height = 660;
   }
