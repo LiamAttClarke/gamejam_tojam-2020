@@ -3,6 +3,7 @@ import ClockProp from '../props/ClockProp';
 import KeurigProp from '../props/KeurigProp';
 import ComputerProp from '../props/ComputerProp';
 import PhotoProp from '../props/PhotoProp';
+import PrinterProp from '../props/PrinterProp';
 import { Scenes } from '../lib/SceneManager';
 
 export default class OfficeScene extends Scene {
@@ -35,6 +36,13 @@ export default class OfficeScene extends Scene {
       y: 300,
       onClick: this.onComputerClick.bind(this),
     }));
+    this.printer = this.addProp(new PrinterProp({
+      interactive: true,
+      x: 100,
+      y: 100,
+      onClick: this.onPrinterClick.bind(this),
+    }));
+
   }
 
   onClockClick() {
@@ -53,5 +61,9 @@ export default class OfficeScene extends Scene {
 
   onPhotoClick() {
     window.sceneManager.setScene(Scenes.Credits);
+  }
+
+  onPrinterClick() {
+    this.printer.setFire();
   }
 }

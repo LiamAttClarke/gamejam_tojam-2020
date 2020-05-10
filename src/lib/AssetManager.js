@@ -36,6 +36,7 @@ export const assets = {
     coffeePod: '/sprites/coffeePod.png',
     // computer
     computer: '/sprites/computer.png',
+    printer: '/sprites/printer.png',
     // supermarket items
     flour: '/sprites/supermarket/flour.png',
     gansito: '/sprites/supermarket/gansito.png',
@@ -68,8 +69,6 @@ export default class AssetManager {
         window.pixi.loader.add(`${BACKGROUND_PREFIX}_${key}`, path);
       });
       Object.entries(assets.sprites).forEach(([key, path]) => {
-        console.log(key, path);
-
         window.pixi.loader.add(`${SPRITE_PREFIX}_${key}`, path);
       });
       Object.entries(assets.spritesheets).forEach(([key, path]) => {
