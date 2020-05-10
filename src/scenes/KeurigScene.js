@@ -12,6 +12,12 @@ export default class OfficeScene extends Scene {
   setup() {
     super.setup();
     this.setBackground('computer');
+    this.backBtn = this.addProp(new BackBtnProp({
+      interactive: true,
+      x: 0,
+      y: 0,
+      onClick: this.onBackBtnClick.bind(this),
+    }));
     this.clock = this.addProp(new ClockProp({ x: 300, y: 50 }));
     this.clock.sprite.width = 200;
     this.clock.sprite.height = 200;
@@ -33,14 +39,6 @@ export default class OfficeScene extends Scene {
       interactive: true,
       x: 100,
       y: 600,
-    }));
-    this.pod.sprite.width = 100;
-    this.pod.sprite.height = 100;
-    this.backBtn = this.addProp(new BackBtnProp({
-      interactive: true,
-      x: 0,
-      y: 0,
-      onClick: this.onBackBtnClick.bind(this),
     }));
     this.addProp(new PodProp({
       interactive: true,
