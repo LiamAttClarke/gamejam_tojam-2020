@@ -3,6 +3,7 @@ import ClockProp from '../props/ClockProp';
 import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
 import PodProp from '../props/PodProp';
+import BackBtnProp from '../props/backBtnProp';
 import { Scenes } from '../lib/SceneManager';
 
 export default class OfficeScene extends Scene {
@@ -18,6 +19,8 @@ export default class OfficeScene extends Scene {
       y: window.pixi.screen.height / 2 - 330,
       onClick: this.onKeurigClick.bind(this),
     }));
+    this.keurig.sprite.width = 400;
+    this.keurig.sprite.height = 660;
     this.mug = this.addProp(new MugProp({
       interactive: true,
       x: 1150,
@@ -30,8 +33,12 @@ export default class OfficeScene extends Scene {
     }));
     this.pod.sprite.width = 100;
     this.pod.sprite.height = 100;
-    this.keurig.sprite.width = 400;
-    this.keurig.sprite.height = 660;
+    this.backBtn = this.addProp(new BackBtnProp({
+      interactive: true,
+      x: 0,
+      y: 0,
+      onClick: this.onBackBtnClick.bind(this),
+    }));
   }
 
   onKeurigClick() {
@@ -40,5 +47,9 @@ export default class OfficeScene extends Scene {
     } else {
       this.keurig.open();
     }
+  }
+
+  onBackBtnClick() {
+    window.sceneManager.setScene(Scenes.Office);
   }
 }
