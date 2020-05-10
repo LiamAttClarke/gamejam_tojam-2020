@@ -77,8 +77,6 @@ export default class AssetManager {
     const resource = window.pixi.loader.resources[`${SPRITE_PREFIX}_${key}`];
     if (!resource) throw new Error(`Sprite '${key}' not found.`);
     const sprite = new PIXI.Sprite(resource.texture);
-    // sprite.pivot.x = sprite.texture.width * 0.5;
-    // sprite.pivot.y = sprite.texture.height * 0.5;
     return sprite;
   }
 
@@ -89,8 +87,6 @@ export default class AssetManager {
   getAnimatedSprite(sheetKey, animationKey) {
     const resource = window.pixi.loader.resources[`${SPRITESHEET_PREFIX}_${sheetKey}`];
     const animation = new PIXI.AnimatedSprite(resource.spritesheet.animations[animationKey]);
-    // animation.pivot.x = animation.texture.width * 0.5;
-    // animation.pivot.y = animation.texture.height * 0.5;
     return animation;
   }
 

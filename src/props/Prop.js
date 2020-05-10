@@ -8,6 +8,7 @@ const defaultOptions = {
   draggable: false,
   consumable: false,
   onClick: () => {},
+  onConsume: () => {},
 };
 
 export default class Prop {
@@ -19,6 +20,7 @@ export default class Prop {
     this.draggable = opts.draggable;
     this.consumable = opts.consumable;
     this.onClick = opts.onClick;
+    this.onConsume = opts.onConsume;
     this.sprite = new PIXI.Container();
     this.sprite.interactive = opts.interactive;
     this.sprite.x = opts.x;
@@ -29,8 +31,9 @@ export default class Prop {
 
   destroy() {}
 
-  // Return false to delete the object after consumption
+  // Return true to delete the object after consumption
   consume() {
+    this.onConsume();
     return true;
   }
 
