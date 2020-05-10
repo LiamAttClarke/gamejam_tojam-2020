@@ -29,6 +29,7 @@ export const assets = {
     keurigOpen: '/sprites/keurig/keurigOpen.png',
     keurigOpenWithPod: '/sprites/keurig/keurigOpenWithPod.png',
     keurigButton: '/sprites/keurig/keurigButton.png',
+    coffeePod: '/sprites/coffeePod.png',
     // computer
     computer: '/sprites/computer.png',
   },
