@@ -1,4 +1,5 @@
 import Scene from './Scene';
+import { Howl } from 'howler';
 import ClockProp from '../props/ClockProp';
 import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
@@ -18,6 +19,7 @@ export default class OfficeScene extends Scene {
       x: window.pixi.screen.width / 2 - 200,
       y: window.pixi.screen.height / 2 - 330,
       onClick: this.onKeurigClick.bind(this),
+      onPour: this.onKeurigPour.bind(this),
     }));
     this.keurig.sprite.width = 400;
     this.keurig.sprite.height = 660;
@@ -25,11 +27,12 @@ export default class OfficeScene extends Scene {
       interactive: true,
       x: 1150,
       y: 550,
+      onGrab: this.onMugGrab.bind(this),
     }));
-    this.pod = this.addProp(new PodProp({
+    this.addProp(new PodProp({
       interactive: true,
-      x: 1000,
-      y: 550,
+      x: 100,
+      y: 600,
     }));
     this.pod.sprite.width = 100;
     this.pod.sprite.height = 100;
@@ -39,13 +42,57 @@ export default class OfficeScene extends Scene {
       y: 0,
       onClick: this.onBackBtnClick.bind(this),
     }));
+    this.addProp(new PodProp({
+      interactive: true,
+      x: 200,
+      y: 600,
+    }));
+    this.addProp(new PodProp({
+      interactive: true,
+      x: 150,
+      y: 525,
+    }));
+
+    this.isCupInKeurig = false;
   }
 
-  onKeurigClick() {
-    if (this.keurig.isOpen) {
-      this.keurig.close();
+  onKeurigClick(event, propInHand, destroyItem) {
+    if (propInHand) {
+      if (propInHand === this.mug) {
+        window.sceneManager.activeScene._hand.release();
+        // nudging the cup into the right spot relative to keurig position...
+        propInHand.sprite.x = this.keurig.sprite.x + (this.keurig.sprite.width / 2) - (propInHand.sprite.width / 2) + 25;
+        propInHand.sprite.y = this.keurig.sprite.y + 450;
+        this.isCupInKeurig = true;
+      } else if ((propInHand instanceof PodProp) && this.keurig.isOpen && !this.keurig.hasPod) {
+        this.keurig.addPod();
+        destroyItem();
+      }
     } else {
-      this.keurig.open();
+      if (this.keurig.isOpen) {
+        this.keurig.close();
+        if (this.isCupInKeurig && this.keurig.hasPod) {
+          if (this.mug.consumable) { // already full of coffee
+            this.mug.setFire();
+          }
+          this.keurig.activate();
+        }
+      } else {
+        this.keurig.open();
+      }
+    }
+  }
+
+  onKeurigPour() {
+    if (this.isCupInKeurig) {
+      this.mug.fill();
+    }
+  }
+
+  onMugGrab() {
+    this.isCupInKeurig = false;
+    if (this.keurig.pouring) {
+      this.keurig.setFire();
     }
   }
 

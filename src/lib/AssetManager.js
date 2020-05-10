@@ -10,6 +10,7 @@ export const assets = {
     subway: '/backgrounds/subway.png',
     computer: '/backgrounds/computer.png',
     credits: '/backgrounds/credits.png',
+    supermarket: '/backgrounds/supermarket.png',
   },
   sprites: {
     //photo:
@@ -37,6 +38,16 @@ export const assets = {
     coffeePod: '/sprites/coffeePod.png',
     // computer
     computer: '/sprites/computer.png',
+    printer: '/sprites/printer.png',
+    // supermarket items
+    flour: '/sprites/supermarket/flour.png',
+    gansito: '/sprites/supermarket/gansito.png',
+    soda: '/sprites/supermarket/soda.png',
+    wine: '/sprites/supermarket/wine.png',
+    bananas: '/sprites/supermarket/bananas.png',
+    carrots: '/sprites/supermarket/carrots.png',
+    raspberries: '/sprites/supermarket/raspberries.png',
+    toiletPaper: '/sprites/supermarket/toilet-paper.png',
   },
   spritesheets: {
     fire: '/animations/fire/fire.json'
@@ -45,6 +56,7 @@ export const assets = {
     end: '/sounds/sound-of-silence.mp3',
     // clock: '/sounds/clock.mp3',
     slurp: '/sounds/slurp.mp3',
+    pour: '/sounds/coffeePour.mp3',
   },
 };
 

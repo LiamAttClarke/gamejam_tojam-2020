@@ -1,17 +1,18 @@
+
 import Prop from './Prop';
 
-export default class PodProp extends Prop {
+export default class SupermarketItemProp extends Prop {
   constructor(options = {}) {
+
     super({
       interactive: true,
       draggable: true,
-      ...options,
+      ...options
     });
-    this.sprite = window.assetManager.getSprite('coffeePod');
+
+    this.sprite = window.assetManager.getSprite(options.itemName);
     this.sprite.interactive = true;
     this.sprite.x = options.x;
     this.sprite.y = options.y;
-    this.sprite.width = 100;
-    this.sprite.height = 100;
   }
 }

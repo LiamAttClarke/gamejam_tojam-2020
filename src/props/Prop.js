@@ -8,6 +8,7 @@ const defaultOptions = {
   draggable: false,
   consumable: false,
   onClick: () => {},
+  onGrab: () => {},
   onConsume: () => {},
 };
 
@@ -15,11 +16,13 @@ export default class Prop {
 
   constructor(options = {}) {
     const opts = { ...defaultOptions, ...options };
+    this.isOnFire = false;
     this.static = true;
     this.interactive = opts.interactive;
     this.draggable = opts.draggable;
     this.consumable = opts.consumable;
     this.onClick = opts.onClick;
+    this.onGrab = opts.onGrab;
     this.onConsume = opts.onConsume;
     this.sprite = new PIXI.Container();
     this.sprite.interactive = opts.interactive;
@@ -43,7 +46,8 @@ export default class Prop {
     this.sprite.filters = [];
   }
 
-  setFire() {
+  setFire(skipSceneFire) {
+    this.isOnFire = true;
     const animationKey = fireAnimationKeys[Math.floor(Math.random() * fireAnimationKeys.length)];
     const fire = window.assetManager.getAnimatedSprite('fire', animationKey);
     fire.animationSpeed = 0.25;
@@ -51,5 +55,12 @@ export default class Prop {
     fire.height = this.sprite.texture.height;
     this.sprite.addChild(fire);
     fire.play();
+
+    // set fire to whole scene after some time
+    if (!skipSceneFire) {
+      setTimeout(() => {
+        window.sceneManager.activeScene.setFire();
+      }, 2000);
+    }
   }
 }

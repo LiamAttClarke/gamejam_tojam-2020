@@ -4,6 +4,7 @@ import { GlowFilter } from '@pixi/filter-glow';
 import { getFillDimensions } from '../lib/Helpers';
 import HandProp, { HandState } from '../props/HandProp';
 import ConsumeIconProp from '../props/ConsumeIconProp';
+import { Scenes } from '../lib/SceneManager';
 
 const glowFilter = new GlowFilter();
 const Layer = {
@@ -101,19 +102,24 @@ export default class Scene {
 
   removeProp(prop) {
     prop.destroy();
+    prop.sprite.parent.removeChild(prop.sprite);
     const propIndex = this.props.indexOf(prop);
     this.props.slice(propIndex, 1);
   }
 
   setFire() {
     this.props.forEach((prop) => {
-      prop.setInteractive(false);
-      prop.setFire();
+      if (!prop.isOnFire) {
+        prop.setInteractive(false);
+        prop.setFire(true);
+      }
     });
     new Howl({
       src: window.assetManager.getSoundSrc('end'),
-      loop: true,
     }).play();
+    setTimeout(() => {
+      window.sceneManager.setScene(Scenes.Credits);
+    }, 8000);
   }
 
   onPointerMove(event) {
@@ -144,19 +150,23 @@ export default class Scene {
   onPropClick(event, prop) {
     event.stopPropagation();
     if (prop === this._consumeIcon && this._hand.propInHand) {
-      const releasedProp = this._hand.release();
-      const delConsumable = releasedProp.consume();
+      const delConsumable = this._hand.propInHand.consume();
       if (delConsumable) {
+        this._hand.release();
         this.removeProp(releasedProp);
       }
       this._consumeIcon.sprite.visible = false;
-    } else if (prop.draggable) {
+    } else if (prop.draggable && !this._hand.propInHand) {
       this._hand.grab(prop);
       if (prop.consumable) {
         this._consumeIcon.sprite.visible = true;
       }
+      prop.onGrab();
     } else if (prop.interactive) {
-      prop.onClick(event, prop);
+      prop.onClick(event, this._hand.propInHand, () => {
+        const releasedItem = this._hand.release();
+        this.removeProp(releasedItem);
+      });
     }
   }
 }
