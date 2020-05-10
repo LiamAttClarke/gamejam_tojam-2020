@@ -12,10 +12,8 @@ export default class OfficeScene extends Scene {
     super.setup();
     this.setBackground('thisIsFine');
     this.clock = this.addProp(new ClockProp({
-      interactive: true,
       x: 650,
       y: 200,
-      onClick: this.onClockClick.bind(this),
     }));
     this.photo = this.addProp(new PhotoProp({
       interactive: true,
@@ -43,11 +41,6 @@ export default class OfficeScene extends Scene {
       onClick: this.onPrinterClick.bind(this),
     }));
 
-  }
-
-  onClockClick() {
-    this.setFire();
-    // window.sceneManager.setScene(Scenes.Subway);
   }
 
   onKeurigClick() {
