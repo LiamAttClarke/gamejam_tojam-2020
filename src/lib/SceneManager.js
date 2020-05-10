@@ -3,6 +3,7 @@ import OfficeScene from '../scenes/OfficeScene';
 import KeurigScene from '../scenes/KeurigScene';
 import SubwayScene from '../scenes/SubwayScene';
 import ComputerScene from '../scenes/ComputerScene';
+import SupermarketScene from '../scenes/SupermarketScene';
 
 export const Scenes = {
   Intro: IntroScene,
@@ -10,6 +11,7 @@ export const Scenes = {
   Keurig: KeurigScene,
   Computer: ComputerScene,
   Subway: SubwayScene,
+  Supermarket: SupermarketScene
 };
 
 export default class SceneManager {

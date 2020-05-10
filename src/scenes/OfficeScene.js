@@ -47,6 +47,7 @@ export default class OfficeScene extends Scene {
   }
 
   onComputerClick() {
-    window.sceneManager.setScene(Scenes.Computer);
+    // TODO Rever this to Scenes.Computer
+    window.sceneManager.setScene(Scenes.Supermarket);
   }
 }
