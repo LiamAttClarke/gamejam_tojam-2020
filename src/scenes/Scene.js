@@ -99,6 +99,7 @@ export default class Scene {
   }
 
   removeProp(prop) {
+    prop.destroy();
     const propIndex = this.props.indexOf(prop);
     this.props.slice(propIndex, 1);
   }

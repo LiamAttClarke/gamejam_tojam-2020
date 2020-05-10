@@ -1,4 +1,5 @@
 import Prop from './Prop';
+import { Howl } from 'howler';
 
 const MUG_EMPTY = 'mugEmpty';
 const MUG_FULL = 'mugFull';
@@ -16,9 +17,13 @@ export default class MugProp extends Prop {
     this.mug.width = 128;
     this.mug.height = 128;
     this.sprite.addChild(this.mug);
+    this.slurpSound = new Howl({
+      src: window.assetManager.getSoundSrc('slurp'),
+    });
   }
 
   consume() {
+    this.slurpSound.play();
     this.empty();
     return false;
   }

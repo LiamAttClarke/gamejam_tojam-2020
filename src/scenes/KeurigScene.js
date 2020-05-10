@@ -19,7 +19,6 @@ export default class OfficeScene extends Scene {
     }));
     this.mug = this.addProp(new MugProp({
       interactive: true,
-      full: true,
       x: 1000,
       y: 500,
     }));

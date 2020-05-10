@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { Howl } from 'howler';
 
 const BACKGROUND_PREFIX = 'background';
 const SPRITE_PREFIX = 'sprite';
@@ -29,7 +28,9 @@ export const assets = {
     keurigOpenWithPod: '/sprites/keurigOpenWithPod.png',
   },
   sounds: {
-    soundOfSilence: '/sounds/sound-of-silence.mp3',
+    // soundOfSilence: '/sounds/sound-of-silence.mp3',
+    // clock: '/sounds/clock.mp3',
+    slurp: '/sounds/slurp.mp3',
   },
 };
 
@@ -71,16 +72,7 @@ export default class AssetManager {
     return PIXI.Texture.from(assets.sprites[key]);
   }
 
-  playSound(key, options) {
-    if (this._howl) this._howl.stop();
-    // TODO: Load sound effects as audio-spritesheet for faster playback.
-    const src = assets.sounds[key];
-    if (!src) throw new Error(`Sound '${key}' not found.`);
-    this._howl = new Howl({
-      src: [src],
-      ...options,
-    });
-    this._howl.play();
-    return this._howl;
+  getSoundSrc(key) {
+    return assets.sounds[key];
   }
 }

@@ -26,6 +26,8 @@ export default class Prop {
 
   update(delta) {}
 
+  destroy() {}
+
   // Return false to delete the object after consumption
   consume() {
     return true;
