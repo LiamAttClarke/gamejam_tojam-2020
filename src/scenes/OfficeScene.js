@@ -3,6 +3,7 @@ import ClockProp from '../props/ClockProp';
 import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
 import ComputerProp from '../props/ComputerProp';
+import PhotoProp from '../props/PhotoProp';
 import { Scenes } from '../lib/SceneManager';
 
 export default class OfficeScene extends Scene {
@@ -15,6 +16,12 @@ export default class OfficeScene extends Scene {
       x: 650,
       y: 200,
       onClick: this.onClockClick.bind(this),
+    }));
+    this.photo = this.addProp(new PhotoProp({
+      interactive: true,
+      x: 1100,
+      y: 200,
+      onClick: this.onPhotoClick,
     }));
     this.mug = this.addProp(new MugProp({
       interactive: true,
@@ -48,5 +55,9 @@ export default class OfficeScene extends Scene {
 
   onComputerClick() {
     window.sceneManager.setScene(Scenes.Computer);
+  }
+
+  onPhotoClick() {
+    window.sceneManager.setScene(Scenes.Credits);
   }
 }
