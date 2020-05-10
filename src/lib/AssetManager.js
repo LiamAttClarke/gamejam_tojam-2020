@@ -4,59 +4,60 @@ const BACKGROUND_PREFIX = 'background';
 const SPRITE_PREFIX = 'sprite';
 const SPRITESHEET_PREFIX = 'spritesheet';
 
+// ONLY USE RELATIVE PATHS ('sprites/' instead of '/sprites')
 export const assets = {
   backgrounds: {
-    thisIsFine: '/backgrounds/this-is-fine.jpg',
-    subway: '/backgrounds/subway.png',
-    computer: '/backgrounds/computer.png',
-    credits: '/backgrounds/credits.png',
-    supermarket: '/backgrounds/supermarket.png',
+    thisIsFine: 'backgrounds/this-is-fine.jpg',
+    subway: 'backgrounds/subway.png',
+    computer: 'backgrounds/computer.png',
+    credits: 'backgrounds/credits.png',
+    supermarket: 'backgrounds/supermarket.png',
   },
   sprites: {
     //photo:
-    photo: '/sprites/credits.png',
+    photo: 'sprites/credits.png',
     //back button
-    backBtn: '/sprites/backBtn.png',
-    consumeIcon: '/sprites/stomach.png',
+    backBtn: 'sprites/backBtn.png',
+    consumeIcon: 'sprites/stomach.png',
     // clock
-    clockFace: '/sprites/clock/clock_face.png',
-    clockHourHand: '/sprites/clock/clock_hour-hand.png',
-    clockMinuteHand: '/sprites/clock/clock_minute-hand.png',
-    clockSecondHand: '/sprites/clock/clock_second-hand.png',
+    clockFace: 'sprites/clock/clock_face.png',
+    clockHourHand: 'sprites/clock/clock_hour-hand.png',
+    clockMinuteHand: 'sprites/clock/clock_minute-hand.png',
+    clockSecondHand: 'sprites/clock/clock_second-hand.png',
     // hand
-    handIdle: '/sprites/hand/hand_pointing.png',
-    handPointing: '/sprites/hand/hand_pointing.png',
-    handGrabbing: '/sprites/hand/hand_grabbing.png',
+    handIdle: 'sprites/hand/hand_pointing.png',
+    handPointing: 'sprites/hand/hand_pointing.png',
+    handGrabbing: 'sprites/hand/hand_grabbing.png',
     // mug
-    mugEmpty: '/sprites/mugEmpty.png',
-    mugFull: '/sprites/mugFull.png',
+    mugEmpty: 'sprites/mugEmpty.png',
+    mugFull: 'sprites/mugFull.png',
     // keurig
-    keurigClosed: '/sprites/keurig/keurigClosed.png',
-    keurigOpen: '/sprites/keurig/keurigOpen.png',
-    keurigOpenWithPod: '/sprites/keurig/keurigOpenWithPod.png',
-    keurigButton: '/sprites/keurig/keurigButton.png',
-    coffeePod: '/sprites/coffeePod.png',
+    keurigClosed: 'sprites/keurig/keurigClosed.png',
+    keurigOpen: 'sprites/keurig/keurigOpen.png',
+    keurigOpenWithPod: 'sprites/keurig/keurigOpenWithPod.png',
+    keurigButton: 'sprites/keurig/keurigButton.png',
+    coffeePod: 'sprites/coffeePod.png',
     // computer
-    computer: '/sprites/computer.png',
-    printer: '/sprites/printer.png',
+    computer: 'sprites/computer.png',
+    printer: 'sprites/printer.png',
     // supermarket items
-    flour: '/sprites/supermarket/flour.png',
-    gansito: '/sprites/supermarket/gansito.png',
-    soda: '/sprites/supermarket/soda.png',
-    wine: '/sprites/supermarket/wine.png',
-    bananas: '/sprites/supermarket/bananas.png',
-    carrots: '/sprites/supermarket/carrots.png',
-    raspberries: '/sprites/supermarket/raspberries.png',
-    toiletPaper: '/sprites/supermarket/toilet-paper.png',
+    flour: 'sprites/supermarket/flour.png',
+    gansito: 'sprites/supermarket/gansito.png',
+    soda: 'sprites/supermarket/soda.png',
+    wine: 'sprites/supermarket/wine.png',
+    bananas: 'sprites/supermarket/bananas.png',
+    carrots: 'sprites/supermarket/carrots.png',
+    raspberries: 'sprites/supermarket/raspberries.png',
+    toiletPaper: 'sprites/supermarket/toilet-paper.png',
   },
   spritesheets: {
-    fire: '/animations/fire/fire.json'
+    fire: 'animations/fire/fire.json'
   },
   sounds: {
-    end: '/sounds/sound-of-silence.mp3',
+    end: 'sounds/sound-of-silence.mp3',
     // clock: '/sounds/clock.mp3',
-    slurp: '/sounds/slurp.mp3',
-    pour: '/sounds/coffeePour.mp3',
+    slurp: 'sounds/slurp.mp3',
+    pour: 'sounds/coffeePour.mp3',
   },
 };
 
