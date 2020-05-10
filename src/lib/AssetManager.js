@@ -9,9 +9,12 @@ export const assets = {
     thisIsFine: '/backgrounds/this-is-fine.jpg',
     subway: '/backgrounds/subway.png',
     computer: '/backgrounds/computer.png',
-    supermarket: '/backgrounds/supermarket.png'
+    credits: '/backgrounds/credits.png',
+    supermarket: '/backgrounds/supermarket.png',
   },
   sprites: {
+    //photo:
+    photo: '/sprites/credits.png',
     consumeIcon: '/sprites/stomach.png',
     // clock
     clockFace: '/sprites/clock/clock_face.png',
