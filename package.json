@@ -6,7 +6,7 @@
   "assetsPath": "assets",
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html -d docs"
   },
   "repository": {
     "type": "git",
