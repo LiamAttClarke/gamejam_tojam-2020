@@ -3,6 +3,7 @@ import { Howl } from 'howler';
 import ClockProp from '../props/ClockProp';
 import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
+import PodProp from '../props/PodProp';
 import { Scenes } from '../lib/SceneManager';
 
 export default class OfficeScene extends Scene {
@@ -19,18 +20,34 @@ export default class OfficeScene extends Scene {
       onClick: this.onKeurigClick.bind(this),
       onPour: this.onKeurigPour.bind(this),
     }));
-    this.mug = this.addProp(new MugProp({
-      interactive: true,
-      x: 1000,
-      y: 500,
-      onClick: this.onMugClick.bind(this),
-    }));
     this.keurig.sprite.width = 400;
     this.keurig.sprite.height = 660;
+    this.mug = this.addProp(new MugProp({
+      interactive: true,
+      x: 1150,
+      y: 550,
+      onGrab: this.onMugGrab.bind(this),
+    }));
+    this.addProp(new PodProp({
+      interactive: true,
+      x: 100,
+      y: 600,
+    }));
+    this.addProp(new PodProp({
+      interactive: true,
+      x: 200,
+      y: 600,
+    }));
+    this.addProp(new PodProp({
+      interactive: true,
+      x: 150,
+      y: 525,
+    }));
+
     this.isCupInKeurig = false;
   }
 
-  onKeurigClick(event, propInHand) {
+  onKeurigClick(event, propInHand, destroyItem) {
     if (propInHand) {
       if (propInHand === this.mug) {
         window.sceneManager.activeScene._hand.release();
@@ -38,11 +55,17 @@ export default class OfficeScene extends Scene {
         propInHand.sprite.x = this.keurig.sprite.x + (this.keurig.sprite.width / 2) - (propInHand.sprite.width / 2) + 25;
         propInHand.sprite.y = this.keurig.sprite.y + 450;
         this.isCupInKeurig = true;
-      } // else if this.pod
+      } else if ((propInHand instanceof PodProp) && this.keurig.isOpen && !this.keurig.hasPod) {
+        this.keurig.addPod();
+        destroyItem();
+      }
     } else {
       if (this.keurig.isOpen) {
         this.keurig.close();
-        if (this.isCupInKeurig) {
+        if (this.isCupInKeurig && this.keurig.hasPod) {
+          if (this.mug.consumable) { // already full of coffee
+            this.setFire();
+          }
           this.keurig.activate();
         }
       } else {
@@ -57,7 +80,10 @@ export default class OfficeScene extends Scene {
     }
   }
 
-  onMugClick() {
+  onMugGrab() {
     this.isCupInKeurig = false;
+    if (this.keurig.pouring) {
+      this.setFire();
+    }
   }
 }

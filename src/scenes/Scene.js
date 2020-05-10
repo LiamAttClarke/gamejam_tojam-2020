@@ -101,6 +101,7 @@ export default class Scene {
 
   removeProp(prop) {
     prop.destroy();
+    prop.sprite.parent.removeChild(prop.sprite);
     const propIndex = this.props.indexOf(prop);
     this.props.slice(propIndex, 1);
   }
@@ -146,7 +147,7 @@ export default class Scene {
     if (prop === this._consumeIcon && this._hand.propInHand) {
       const delConsumable = this._hand.propInHand.consume();
       if (delConsumable) {
-        this._hand.releasedProp()
+        this._hand.release();
         this.removeProp(releasedProp);
       }
       this._consumeIcon.sprite.visible = false;
@@ -155,8 +156,13 @@ export default class Scene {
       if (prop.consumable) {
         this._consumeIcon.sprite.visible = true;
       }
+      prop.onGrab();
     } else if (prop.interactive) {
-      prop.onClick(event, this._hand.propInHand);
+      console.log('propClick')
+      prop.onClick(event, this._hand.propInHand, () => {
+        const releasedItem = this._hand.release();
+        this.removeProp(releasedItem);
+      });
     }
   }
 }

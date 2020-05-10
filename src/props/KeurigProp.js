@@ -14,6 +14,7 @@ export default class KeurigProp extends Prop {
     super(opts);
     this.isOpen = false;
     this.hasPod = false;
+    this.pouring = false;
     this.sprite = window.assetManager.getSprite(TEXTURE_CLOSED);
     this.sprite.interactive = opts.interactive;
     this.sprite.x = opts.x;
@@ -25,10 +26,12 @@ export default class KeurigProp extends Prop {
   }
 
   open() {
-    this.isOpen = true;
-    this.sprite.texture = window.assetManager.getSpriteTexture(
-      this.hasPod ? TEXTURE_OPEN_WITH_POD : TEXTURE_OPEN
-    );
+    if (!this.pouring) {
+      this.isOpen = true;
+      this.sprite.texture = window.assetManager.getSpriteTexture(
+        this.hasPod ? TEXTURE_OPEN_WITH_POD : TEXTURE_OPEN
+      );
+    }
   }
 
   close() {
@@ -53,7 +56,14 @@ export default class KeurigProp extends Prop {
   }
 
   activate() {
-    this.pourSound.play();
-    this.pourSound.on('end', this.onPour);
+    if (this.hasPod && !this.isOpen) {
+      this.pouring = true;
+      this.pourSound.play();
+      this.pourSound.on('end', () => {
+        this.pouring = false;
+        this.hasPod = false;
+        this.onPour();
+      });
+    }
   }
 }

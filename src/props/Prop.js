@@ -8,6 +8,7 @@ const defaultOptions = {
   draggable: false,
   consumable: false,
   onClick: () => {},
+  onGrab: () => {},
   onConsume: () => {},
 };
 
@@ -20,6 +21,7 @@ export default class Prop {
     this.draggable = opts.draggable;
     this.consumable = opts.consumable;
     this.onClick = opts.onClick;
+    this.onGrab = opts.onGrab;
     this.onConsume = opts.onConsume;
     this.sprite = new PIXI.Container();
     this.sprite.interactive = opts.interactive;

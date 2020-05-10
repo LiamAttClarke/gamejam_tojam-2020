@@ -1,6 +1,5 @@
 import Scene from './Scene';
 import ClockProp from '../props/ClockProp';
-import MugProp from '../props/MugProp';
 import KeurigProp from '../props/KeurigProp';
 import ComputerProp from '../props/ComputerProp';
 import { Scenes } from '../lib/SceneManager';
@@ -12,18 +11,12 @@ export default class OfficeScene extends Scene {
     this.setBackground('thisIsFine');
     this.clock = this.addProp(new ClockProp({
       interactive: true,
-      x: 900,
-      y: 250,
+      x: 650,
+      y: 200,
       onClick: this.onClockClick.bind(this),
     }));
-    this.mug = this.addProp(new MugProp({
-      interactive: true,
-      full: true,
-      x: 500,
-      y: 500,
-    }));
     this.keurig = this.addProp(new KeurigProp({
-      x: 600,
+      x: 850,
       y: 200,
       onClick: this.onKeurigClick,
     }));
