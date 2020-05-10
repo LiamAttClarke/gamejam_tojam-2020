@@ -11,16 +11,17 @@ const defaultOptions = {
 
 export default class Prop {
 
-  constructor(options = defaultOptions) {
+  constructor(options) {
+    const opts = { ...defaultOptions, ...options };
     this.static = true;
-    this.interactive = options.interactive;
-    this.draggable = options.draggable;
-    this.consumable = options.consumable;
-    this.onClick = options.onClick;
+    this.interactive = opts.interactive;
+    this.draggable = opts.draggable;
+    this.consumable = opts.consumable;
+    this.onClick = opts.onClick;
     this.sprite = new PIXI.Container();
-    this.sprite.interactive = options.interactive;
-    this.sprite.x = options.x;
-    this.sprite.y = options.y;
+    this.sprite.interactive = opts.interactive;
+    this.sprite.x = opts.x;
+    this.sprite.y = opts.y;
   }
 
   update(delta) {}

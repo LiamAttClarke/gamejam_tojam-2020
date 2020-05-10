@@ -23,6 +23,10 @@ export const assets = {
     // mug
     mugEmpty: '/sprites/mugEmpty.png',
     mugFull: '/sprites/mugFull.png',
+    // keurig
+    keurigClosed: '/sprites/keurigClosed.png',
+    keurigOpen: '/sprites/keurigOpen.png',
+    keurigOpenWithPod: '/sprites/keurigOpenWithPod.png',
   },
   sounds: {
     soundOfSilence: '/sounds/sound-of-silence.mp3',
