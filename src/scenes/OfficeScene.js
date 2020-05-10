@@ -10,7 +10,7 @@ export default class OfficeScene extends Scene {
 
   setup() {
     super.setup();
-    this.setBackground('thisIsFine');
+    this.setBackground('office');
     this.clock = this.addProp(new ClockProp({
       x: 650,
       y: 200,

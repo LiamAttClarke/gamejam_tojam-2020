@@ -7,7 +7,7 @@ const SPRITESHEET_PREFIX = 'spritesheet';
 // ONLY USE RELATIVE PATHS ('sprites/' instead of '/sprites')
 export const assets = {
   backgrounds: {
-    thisIsFine: 'backgrounds/this-is-fine.jpg',
+    office: 'backgrounds/office.png',
     subway: 'backgrounds/subway.png',
     computer: 'backgrounds/computer.png',
     credits: 'backgrounds/credits.png',
