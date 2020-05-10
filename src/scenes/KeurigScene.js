@@ -64,7 +64,7 @@ export default class OfficeScene extends Scene {
         this.keurig.close();
         if (this.isCupInKeurig && this.keurig.hasPod) {
           if (this.mug.consumable) { // already full of coffee
-            this.setFire();
+            this.mug.setFire();
           }
           this.keurig.activate();
         }
@@ -83,7 +83,7 @@ export default class OfficeScene extends Scene {
   onMugGrab() {
     this.isCupInKeurig = false;
     if (this.keurig.pouring) {
-      this.setFire();
+      this.keurig.setFire();
     }
   }
 }

@@ -4,6 +4,7 @@ import { GlowFilter } from '@pixi/filter-glow';
 import { getFillDimensions } from '../lib/Helpers';
 import HandProp, { HandState } from '../props/HandProp';
 import ConsumeIconProp from '../props/ConsumeIconProp';
+import { Scenes } from '../lib/SceneManager';
 
 const glowFilter = new GlowFilter();
 const Layer = {
@@ -108,13 +109,17 @@ export default class Scene {
 
   setFire() {
     this.props.forEach((prop) => {
-      prop.setInteractive(false);
-      prop.setFire();
+      if (!prop.isOnFire) {
+        prop.setInteractive(false);
+        prop.setFire(true);
+      }
     });
     new Howl({
       src: window.assetManager.getSoundSrc('end'),
-      loop: true,
     }).play();
+    setTimeout(() => {
+      window.sceneManager.setScene(Scenes.Credits);
+    }, 8000);
   }
 
   onPointerMove(event) {
@@ -158,7 +163,6 @@ export default class Scene {
       }
       prop.onGrab();
     } else if (prop.interactive) {
-      console.log('propClick')
       prop.onClick(event, this._hand.propInHand, () => {
         const releasedItem = this._hand.release();
         this.removeProp(releasedItem);
