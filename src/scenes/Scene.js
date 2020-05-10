@@ -156,7 +156,7 @@ export default class Scene {
         this.removeProp(releasedProp);
       }
       this._consumeIcon.sprite.visible = false;
-    } else if (prop.draggable) {
+    } else if (prop.draggable && !this._hand.propInHand) {
       this._hand.grab(prop);
       if (prop.consumable) {
         this._consumeIcon.sprite.visible = true;
