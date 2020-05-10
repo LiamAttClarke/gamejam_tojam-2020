@@ -2,11 +2,13 @@ import IntroScene from '../scenes/IntroScene';
 import OfficeScene from '../scenes/OfficeScene';
 import KeurigScene from '../scenes/KeurigScene';
 import SubwayScene from '../scenes/SubwayScene';
+import ComputerScene from '../scenes/ComputerScene';
 
 export const Scenes = {
   Intro: IntroScene,
   Office: OfficeScene,
   Keurig: KeurigScene,
+  Computer: ComputerScene,
   Subway: SubwayScene,
 };
 

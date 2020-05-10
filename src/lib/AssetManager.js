@@ -2,11 +2,13 @@ import * as PIXI from 'pixi.js';
 
 const BACKGROUND_PREFIX = 'background';
 const SPRITE_PREFIX = 'sprite';
+const SPRITESHEET_PREFIX = 'spritesheet';
 
 export const assets = {
   backgrounds: {
     thisIsFine: '/backgrounds/this-is-fine.jpg',
     subway: '/backgrounds/subway.png',
+    computer: '/backgrounds/computer.png',
   },
   sprites: {
     consumeIcon: '/sprites/stomach.png',
@@ -23,12 +25,18 @@ export const assets = {
     mugEmpty: '/sprites/mugEmpty.png',
     mugFull: '/sprites/mugFull.png',
     // keurig
-    keurigClosed: '/sprites/keurigClosed.png',
-    keurigOpen: '/sprites/keurigOpen.png',
-    keurigOpenWithPod: '/sprites/keurigOpenWithPod.png',
+    keurigClosed: '/sprites/keurig/keurigClosed.png',
+    keurigOpen: '/sprites/keurig/keurigOpen.png',
+    keurigOpenWithPod: '/sprites/keurig/keurigOpenWithPod.png',
+    keurigButton: '/sprites/keurig/keurigButton.png',
+    // computer
+    computer: '/sprites/computer.png',
+  },
+  spritesheets: {
+    fire: '/animations/fire/fire.json'
   },
   sounds: {
-    // soundOfSilence: '/sounds/sound-of-silence.mp3',
+    end: '/sounds/sound-of-silence.mp3',
     // clock: '/sounds/clock.mp3',
     slurp: '/sounds/slurp.mp3',
   },
@@ -46,6 +54,9 @@ export default class AssetManager {
       });
       Object.entries(assets.sprites).forEach(([key, path]) => {
         window.pixi.loader.add(`${SPRITE_PREFIX}_${key}`, path);
+      });
+      Object.entries(assets.spritesheets).forEach(([key, path]) => {
+        window.pixi.loader.add(`${SPRITESHEET_PREFIX}_${key}`, path);
       });
       window.pixi.loader.onError.add(reject);
       window.pixi.loader.onComplete.add(resolve);
@@ -65,11 +76,22 @@ export default class AssetManager {
   getSprite(key) {
     const resource = window.pixi.loader.resources[`${SPRITE_PREFIX}_${key}`];
     if (!resource) throw new Error(`Sprite '${key}' not found.`);
-    return new PIXI.Sprite(resource.texture);
+    const sprite = new PIXI.Sprite(resource.texture);
+    // sprite.pivot.x = sprite.texture.width * 0.5;
+    // sprite.pivot.y = sprite.texture.height * 0.5;
+    return sprite;
   }
 
   getSpriteTexture(key) {
     return PIXI.Texture.from(assets.sprites[key]);
+  }
+
+  getAnimatedSprite(sheetKey, animationKey) {
+    const resource = window.pixi.loader.resources[`${SPRITESHEET_PREFIX}_${sheetKey}`];
+    const animation = new PIXI.AnimatedSprite(resource.spritesheet.animations[animationKey]);
+    // animation.pivot.x = animation.texture.width * 0.5;
+    // animation.pivot.y = animation.texture.height * 0.5;
+    return animation;
   }
 
   getSoundSrc(key) {

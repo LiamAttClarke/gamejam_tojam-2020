@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { Howl } from 'howler';
 import { GlowFilter } from '@pixi/filter-glow';
 import { getFillDimensions } from '../lib/Helpers';
 import HandProp from '../props/HandProp';
@@ -37,7 +38,6 @@ export default class Scene {
     this._hand.sprite.zIndex = Layer.Cursor;
     this._container.addChild(this._hand.sprite);
     // Add consume icon
-    console.log(window.pixi.stage.width)
     this._consumeIcon = this.addProp(new ConsumeIconProp({
       x: (window.pixi.screen.width / 2) - 70,
       y: window.pixi.screen.height - 138,
@@ -116,6 +116,17 @@ export default class Scene {
     if (prop.consumable) {
       this._consumeIcon.sprite.visible = true;
     }
+  }
+
+  setFire() {
+    this.props.forEach((prop) => {
+      prop.setInteractive(false);
+      prop.setFire();
+    });
+    new Howl({
+      src: window.assetManager.getSoundSrc('end'),
+      loop: true,
+    }).play();
   }
 
   onPointerMove(event) {

@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 
+const fireAnimationKeys = ['fireA', 'fireB', 'fireC', 'fireD'];
 const defaultOptions = {
   x: 0,
   y: 0,
@@ -11,7 +12,7 @@ const defaultOptions = {
 
 export default class Prop {
 
-  constructor(options) {
+  constructor(options = {}) {
     const opts = { ...defaultOptions, ...options };
     this.static = true;
     this.interactive = opts.interactive;
@@ -24,7 +25,7 @@ export default class Prop {
     this.sprite.y = opts.y;
   }
 
-  update(delta) {}
+  update() {}
 
   destroy() {}
 
@@ -36,5 +37,16 @@ export default class Prop {
   setInteractive(interactive) {
     this.interactive = interactive;
     this.sprite.interactive = interactive;
+    this.sprite.filters = [];
+  }
+
+  setFire() {
+    const animationKey = fireAnimationKeys[Math.floor(Math.random() * fireAnimationKeys.length)];
+    const fire = window.assetManager.getAnimatedSprite('fire', animationKey);
+    fire.animationSpeed = 0.25;
+    fire.width = this.sprite.texture.width;
+    fire.height = this.sprite.texture.height;
+    this.sprite.addChild(fire);
+    fire.play();
   }
 }

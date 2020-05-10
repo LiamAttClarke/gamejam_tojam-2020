@@ -5,33 +5,36 @@ const TEXTURE_OPEN = 'keurigOpen';
 const TEXTURE_OPEN_WITH_POD = 'keurigOpenWithPod';
 
 export default class KeurigProp extends Prop {
-  constructor(options) {
-    super({
+  constructor(options = {}) {
+    const opts = {
       interactive: true,
       ...options,
-    });
+    }
+    super(opts);
     this.isOpen = false;
     this.hasPod = false;
-    this.keurig = window.assetManager.getSprite(TEXTURE_CLOSED);
-    this.sprite.addChild(this.keurig);
+    this.sprite = window.assetManager.getSprite(TEXTURE_CLOSED);
+    this.sprite.interactive = opts.interactive;
+    this.sprite.x = opts.x;
+    this.sprite.y = opts.y;
   }
 
   open() {
     this.isOpen = true;
-    this.keurig.texture = window.assetManager.getSpriteTexture(
+    this.sprite.texture = window.assetManager.getSpriteTexture(
       this.hasPod ? TEXTURE_OPEN_WITH_POD : TEXTURE_OPEN
     );
   }
 
   close() {
     this.isOpen = false;
-    this.keurig.texture = window.assetManager.getSpriteTexture(TEXTURE_CLOSED);
+    this.sprite.texture = window.assetManager.getSpriteTexture(TEXTURE_CLOSED);
   }
 
   addPod() {
     if (this.isOpen) {
       this.hasPod = true;
-      this.keurig.texture = window.assetManager.getSpriteTexture(TEXTURE_OPEN_WITH_POD);
+      this.sprite.texture = window.assetManager.getSpriteTexture(TEXTURE_OPEN_WITH_POD);
     } else {
       // set fire
     }
@@ -40,7 +43,7 @@ export default class KeurigProp extends Prop {
   removePod() {
     if (this.isOpen) {
       this.hasPod = false;
-      this.keurig.texture = window.assetManager.getSpriteTexture(TEXTURE_CLOSED);
+      this.sprite.texture = window.assetManager.getSpriteTexture(TEXTURE_CLOSED);
     }
   }
 }

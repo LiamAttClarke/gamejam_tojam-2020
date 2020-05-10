@@ -5,7 +5,7 @@ const MUG_EMPTY = 'mugEmpty';
 const MUG_FULL = 'mugFull';
 
 export default class MugProp extends Prop {
-  constructor(options) {
+  constructor(options = {}) {
     super({
       interactive: true,
       draggable: true,
@@ -13,10 +13,12 @@ export default class MugProp extends Prop {
       ...options,
     });
     this.isFull = options.full;
-    this.mug = window.assetManager.getSprite(options.full ? MUG_FULL : MUG_EMPTY);
-    this.mug.width = 128;
-    this.mug.height = 128;
-    this.sprite.addChild(this.mug);
+    this.sprite = window.assetManager.getSprite(options.full ? MUG_FULL : MUG_EMPTY);
+    this.sprite.interactive = options.interactive;
+    this.sprite.x = options.x;
+    this.sprite.y = options.y;
+    this.sprite.width = 128;
+    this.sprite.height = 128;
     this.slurpSound = new Howl({
       src: window.assetManager.getSoundSrc('slurp'),
     });
@@ -30,11 +32,11 @@ export default class MugProp extends Prop {
 
   fill() {
     this.isFull = true;
-    this.mug.texture = window.assetManager.getSpriteTexture(MUG_FULL);
+    this.sprite.texture = window.assetManager.getSpriteTexture(MUG_FULL);
   }
 
   empty() {
     this.isFull = false;
-    this.mug.texture = window.assetManager.getSpriteTexture(MUG_EMPTY);
+    this.sprite.texture = window.assetManager.getSpriteTexture(MUG_EMPTY);
   }
 }

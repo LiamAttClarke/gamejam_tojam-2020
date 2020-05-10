@@ -8,8 +8,8 @@ export default class OfficeScene extends Scene {
 
   setup() {
     super.setup();
-    this.setBackground('thisIsFine');
-    this.clock = this.addProp(new ClockProp({ x: 150, y: 150 }));
+    this.setBackground('computer');
+    this.clock = this.addProp(new ClockProp({ x: 300, y: 50 }));
     this.clock.sprite.width = 200;
     this.clock.sprite.height = 200;
     this.keurig = this.addProp(new KeurigProp({

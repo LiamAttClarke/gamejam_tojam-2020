@@ -3,38 +3,38 @@ import Prop from './Prop';
 const clockWidth = 150;
 
 export default class ClockProp extends Prop {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
     this.static = false;
     // Face
-    this.clockFace = window.assetManager.getSprite('clockFace');
-    this.clockFace.pivot.x = this.clockFace.width / 2;
-    this.clockFace.pivot.y = this.clockFace.height / 2;
-    this.sprite.addChild(this.clockFace);
+    this.sprite = window.assetManager.getSprite('clockFace');
+    this.sprite.interactive = options.interactive;
+    this.sprite.x = options.x;
+    this.sprite.y = options.y;
     // Hour Hand
     this.hourHand = window.assetManager.getSprite('clockHourHand');
     this.hourHand.pivot.x = this.hourHand.width / 2;
     this.hourHand.pivot.y = this.hourHand.height / 2;
-    this.hourHand.x = this.clockFace.width / 2;
-    this.hourHand.y = this.clockFace.height / 2;
-    this.clockFace.addChild(this.hourHand);
+    this.hourHand.x = this.sprite.width / 2;
+    this.hourHand.y = this.sprite.height / 2;
+    this.sprite.addChild(this.hourHand);
     // Minute Hand
     this.minuteHand = window.assetManager.getSprite('clockMinuteHand');
     this.minuteHand.pivot.x = this.minuteHand.width / 2;
     this.minuteHand.pivot.y = this.minuteHand.height / 2;
-    this.minuteHand.x = this.clockFace.width / 2;
-    this.minuteHand.y = this.clockFace.height / 2;
-    this.clockFace.addChild(this.minuteHand);
+    this.minuteHand.x = this.sprite.width / 2;
+    this.minuteHand.y = this.sprite.height / 2;
+    this.sprite.addChild(this.minuteHand);
     // Second Hand
     this.secondHand = window.assetManager.getSprite('clockSecondHand');
     this.secondHand.pivot.x = this.secondHand.width / 2;
     this.secondHand.pivot.y = this.secondHand.height / 2;
-    this.secondHand.x = this.clockFace.width / 2;
-    this.secondHand.y = this.clockFace.height / 2;
-    this.clockFace.addChild(this.secondHand);
+    this.secondHand.x = this.sprite.width / 2;
+    this.secondHand.y = this.sprite.height / 2;
+    this.sprite.addChild(this.secondHand);
     // Setting clockFace size last to correctly rescale all hands
-    this.clockFace.width = clockWidth;
-    this.clockFace.height = clockWidth;
+    this.sprite.width = clockWidth;
+    this.sprite.height = clockWidth;
   }
 
   get secondsElapsed() {
