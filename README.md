@@ -1,5 +1,7 @@
 # Game Jame: TOJam (2020)
 
+Our submission for TOJam 2020.
+
 ![](https://github.com/LiamAttClarke/tojam-2020/blob/master/assets/backgrounds/credits.png)
 
 ## Setup
